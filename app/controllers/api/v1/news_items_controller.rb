@@ -9,9 +9,12 @@ module Api
       	private
 
       	def decorated_news_items
-          NewsItem.all.map {|news_item| NewsItemsDecorator.new(news_item) }
+          NewsItem.where(
+            "description ILIKE :query OR 
+            title ILIKE :query OR 
+            author ILIKE :query",
+           query: "%#{params[:q]}%").all
         end
-
     end
   end
 end
